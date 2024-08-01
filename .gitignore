@@ -1,0 +1,6 @@
+fastapi/.venv/
+fastapi/.env
+fastapi/app/__pycache__/
+fastapi/app/database/__pycache__/
+fastapi/app/functions/__pycache__/
+fastapi/app/routes/__pycache__/
