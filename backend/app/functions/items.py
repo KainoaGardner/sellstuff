@@ -24,7 +24,7 @@ def put_new_item(db: Session, user: schemas.User, item: schemas.ItemBase):
         description=item.description,
         price=item.price,
         image="",
-        sold=False,
+        sold=item.sold,
         user_id=user.id,
     )
     db.add(item)
@@ -32,12 +32,23 @@ def put_new_item(db: Session, user: schemas.User, item: schemas.ItemBase):
     return item
 
 
+def toggle_sold(db: Session, db_item: schemas.Item):
+    db_item.sold = not db_item.sold
+    db.commit()
+    return db_item
+
+
 def update_item(db: Session, db_item: schemas.Item, new_item: schemas.Item):
-    db_item.title = new_item.title
-    db_item.description = new_item.description
-    db_item.price = new_item.price
-    db_item.image = new_item.image
-    db_item.sold = new_item.sold
+    if new_item.title:
+        db_item.title = new_item.title
+    if new_item.description:
+        db_item.description = new_item.description
+    if new_item.price:
+        db_item.price = new_item.price
+    if new_item.image:
+        db_item.image = new_item.image
+    if new_item.sold:
+        db_item.sold = new_item.sold
     db.commit()
     return db_item
 

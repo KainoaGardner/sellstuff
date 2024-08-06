@@ -5,6 +5,14 @@ class ItemBase(BaseModel):
     title: str
     description: str | None = None
     price: float | None = 0
+    sold: bool | None = False
+
+
+class ItemChange(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    price: float | None = 0
+    sold: bool | None = False
 
 
 class Item(ItemBase):

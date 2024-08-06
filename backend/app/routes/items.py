@@ -27,11 +27,25 @@ def create_item(
     return items.put_new_item(db, db_user, new_item)
 
 
+@router.put("/toggle_sold", response_model=schemas.Item)
+def toggle_sold(
+    user_auth: user_dependency,
+    item_id: int,
+    db: Session = Depends(get_db),
+):
+    user_id = user_auth["id"]
+
+    db_item = items.get_item(db, user_id, item_id)
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return items.toggle_sold(db, db_item)
+
+
 @router.put("/update", response_model=schemas.Item)
 def update_item(
     user_auth: user_dependency,
     item_id: int,
-    new_item: schemas.Item,
+    new_item: schemas.ItemChange,
     db: Session = Depends(get_db),
 ):
     user_id = user_auth["id"]
