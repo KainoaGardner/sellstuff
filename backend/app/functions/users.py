@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.database import models, schemas
+from app.functions import items, data
 from app.password import verify_password, get_password_hash
 
 
@@ -9,6 +10,24 @@ def get_user(db: Session, user_id: int):
 
 def get_all_users(db: Session) -> list:
     return db.query(models.Users).all()
+
+
+def get_data(db: Session, user_id: int):
+    total_items = data.total_items(db, user_id)
+    total_sales = data.total_sales(db, user_id)
+    average_sale = data.average_sale(db, user_id)
+    profit = data.sale_profit(db, user_id)
+    biggest_profit = data.biggest_profit(db, user_id)
+
+    result = {
+        "total_items": total_items,
+        "total_sales": total_sales,
+        "average_sale_price": average_sale,
+        "profit": profit,
+        "biggest_profit_item": biggest_profit,
+    }
+    print(result)
+    return result
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> schemas.User:

@@ -1,8 +1,8 @@
 import axios from "axios";
-import BASEURL from "./config";
+import { baseurl } from "./config";
 
 const defaultOptions = {
-  baseURL: BASEURL,
+  baseURL: baseurl,
   headers: {
     "Content-Type": "application/json",
   },

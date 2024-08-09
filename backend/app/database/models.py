@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Date
 from sqlalchemy.orm import relationship
 from app.database.database import Base
 
@@ -18,7 +18,7 @@ class Items(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String, nullable=True)
-    price = Column(Float)
+    price = Column(Integer)
     image = Column(String, nullable=True)
-    sold = Column(Boolean)
+    sold = Column(Date, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"))

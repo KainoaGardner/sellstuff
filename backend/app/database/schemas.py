@@ -1,24 +1,27 @@
-from pydantic import BaseModel
+import datetime
+from typing import Optional
+from pydantic import BaseModel, Field
+from decimal import Decimal
 
 
 class ItemBase(BaseModel):
     title: str
     description: str | None = None
-    price: float | None = 0
-    sold: bool | None = False
+    price: Optional[Decimal] = Field(ge=0.00, decimal_places=2)
+    sold: datetime.date | None = None
 
 
 class ItemChange(BaseModel):
     title: str | None = None
     description: str | None = None
-    price: float | None = 0
-    sold: bool | None = False
+    price: Optional[Decimal] = Field(ge=0.00, decimal_places=2)
+    sold: datetime.date | None = None
 
 
 class Item(ItemBase):
     id: int
     image: str | None = None
-    sold: bool | None = False
+    sold: datetime.date | None = None
     user_id: int
 
 
@@ -32,6 +35,14 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+
+
+class Data(BaseModel):
+    total_items: int
+    total_sales: int
+    average_sale_price: Decimal = Field(ge=0.00, decimal_places=2)
+    profit: Decimal = Field(ge=0.00, decimal_places=2)
+    biggest_profit_item: str | None = ""
 
 
 class Token(BaseModel):

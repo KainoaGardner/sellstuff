@@ -1,4 +1,5 @@
 from fastapi import HTTPException, APIRouter, Depends
+from fastapi.responses import FileResponse
 
 from sqlalchemy.orm import Session
 from app.database import schemas
@@ -19,6 +20,18 @@ def get_current_user(user_auth: user_dependency, db: Session = Depends(get_db)):
 def get_all_users(db: Session = Depends(get_db)):
     db_user = users.get_all_users(db)
     return db_user
+
+
+@router.get("/data", response_model=schemas.Data)
+def get_user_data(
+    user_auth: user_dependency,
+    db: Session = Depends(get_db),
+):
+    user_id = user_auth["id"]
+
+    user_data = users.get_data(db, user_id)
+
+    return user_data
 
 
 @router.post("/create", response_model=schemas.User)

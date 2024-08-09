@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import BASEURL from "./config";
+import React, { useState, useContext } from "react";
+import { baseurl } from "./config";
 import { useNavigate } from "react-router-dom";
+import AlertContext from "./AlertContext";
 
 function Login() {
   const navigate = useNavigate();
+  const [, setAlert] = useContext(AlertContext);
+  const showAlert = (text, type) => {
+    setAlert({
+      text,
+      type,
+    });
+  };
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -19,7 +28,7 @@ function Login() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(BASEURL + "/auth/token/", {
+      const response = await fetch(baseurl + "/auth/token/", {
         method: "POST",
         body: new URLSearchParams({
           username: formData.username,
@@ -29,7 +38,10 @@ function Login() {
       const data = await response.json();
       if (response.ok) {
         saveUser(formData.username, data.access_token);
+        showAlert(`${formData.username} Logged in`, "normal");
         navigate("/user");
+      } else {
+        showAlert("Incorrect information", "danger");
       }
     } catch (error) {
       console.log(error);

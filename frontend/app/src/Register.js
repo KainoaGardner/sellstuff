@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import BASEURL from "./config";
+import React, { useState, useContext } from "react";
+import { baseurl } from "./config";
 import { useNavigate } from "react-router-dom";
+import AlertContext from "./AlertContext";
 
 function Register() {
   const navigate = useNavigate();
+  const [, setAlert] = useContext(AlertContext);
+  const showAlert = (text, type) => {
+    setAlert({
+      text,
+      type,
+    });
+  };
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,7 +30,7 @@ function Register() {
     event.preventDefault();
     try {
       console.log(formData.username, formData.password);
-      const response = await fetch(BASEURL + "/users/create/", {
+      const response = await fetch(baseurl + "/users/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -34,7 +43,10 @@ function Register() {
       });
       if (response.ok) {
         const data = await response.json();
+        showAlert(`${formData.username} Registered`, "normal");
         navigate("/user");
+      } else {
+        showAlert(`${formData.username} Already Taken`, "danger");
       }
     } catch (error) {
       console.log(error);
