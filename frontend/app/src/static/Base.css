@@ -1,0 +1,14 @@
+body {
+  padding: 0 0;
+}
+
+.mainBody {
+  margin: 25px 0;
+  padding: 15px 15px;
+  border: solid;
+  border-width: 3px;
+}
+
+.title {
+  text-align: center;
+}

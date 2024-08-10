@@ -3,10 +3,10 @@ import { baseurl, imageurl } from "./config";
 import { useNavigate } from "react-router-dom";
 import api from "./Api";
 import AlertContext from "./AlertContext";
+import "./static/User.css";
 
 function User() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const [timestamp, setTimestamp] = useState(new Date().getTime());
   const navigate = useNavigate();
 
   const [, setAlert] = useContext(AlertContext);
@@ -28,20 +28,10 @@ function User() {
     sold: false,
   });
 
-  const fetchItems = async () => {
-    try {
-      const response = await api.get(
-        `/items/all?sort=${sort}&reverse_sort=${reverse}`,
-      );
-      setItems(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (!user) {
       navigate("/login");
+      showAlert(`Must Be Logged In`, "danger");
     } else {
       setUsername(user.username);
     }
@@ -50,6 +40,15 @@ function User() {
   useEffect(() => {
     fetchItems();
   }, [sort, reverse]);
+
+  const fetchItems = async () => {
+    try {
+      const response = await api.get(
+        `/items/all?sort=${sort}&reverse_sort=${reverse}`,
+      );
+      setItems(response.data);
+    } catch (error) {}
+  };
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -107,9 +106,7 @@ function User() {
       if (response.ok) {
         fetchItems();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   async function uploadImage(image, item) {
@@ -128,15 +125,12 @@ function User() {
           body: data,
         },
       );
-      console.log(response);
       if (response.ok) {
-        setTimestamp(new Date().getTime());
+        // setTimestamp(new Date().getTime());
         fetchItems();
         showAlert(`${item.title} Image Updated`, "normal");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
 
     fetchItems();
   }
@@ -154,95 +148,117 @@ function User() {
 
   return (
     <>
-      <h1>{username}</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          onChange={handleInputChange}
-          value={formData.title}
-          required
-        />
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          onChange={handleInputChange}
-          value={formData.description}
-        />
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          name="price"
-          step="0.01"
-          onChange={handleInputChange}
-          value={formData.price}
-        />
+      <h1 className="title">{username}</h1>
+      <hr />
 
-        <label htmlFor="sold">Sold</label>
-        <input
-          type="date"
-          id="sold"
-          name="sold"
-          onChange={handleInputChange}
-          value={formData.sold}
-        />
-
-        <button type="submit">Submit</button>
-      </form>
-
-      <form>
-        <label for="sort">Sort Type</label>
-        <select name="sort" id="sort" onChange={handleInputChange2}>
-          <option value="id">Added</option>
-          <option value="title">Title</option>
-          <option value="price">Price</option>
-          <option value="sold_date">Sold Date</option>
-        </select>
-        <label for="reverse">Reverse</label>
-        <input
-          type="checkbox"
-          name="reverse"
-          id="reverse"
-          onChange={handleReverseChange}
-        />
-      </form>
-
-      <ul>
-        {items.map((item) => (
-          <div key={item.id}>
-            <img src={`${imageurl}/${item.image}`} width="100" height="100" />
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
-            <p>${item.price}</p>
-            {item.sold ? (
-              <div>
-                <p>{item.sold}</p>
-                <button onClick={() => toggleSold(item)}>Unsell</button>
+      <div className="userMain">
+        <div className="userLeft">
+          <h2 className="title">Items</h2>
+          <div className="sortMain">
+            <form className="sortForm">
+              <div className="sortIn">
+                <label htmlFor="sort">Sort Type</label>
+                <select name="sort" id="sort" onChange={handleInputChange2}>
+                  <option value="id">Added</option>
+                  <option value="title">Title</option>
+                  <option value="price">Price</option>
+                  <option value="sold_date">Sold Date</option>
+                </select>
               </div>
-            ) : (
-              <div>
-                <p>Not Yet Sold</p>
-                <button onClick={() => toggleSold(item)}>Sell</button>
+              <div className="sortIn">
+                <label htmlFor="reverse">Reverse</label>
+                <input
+                  type="checkbox"
+                  name="reverse"
+                  id="reverse"
+                  onChange={handleReverseChange}
+                />
               </div>
-            )}
-
-            <button onClick={() => deleteItem(item)}>Delete</button>
-            <label for="image"></label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/png,image/jpeg"
-              onChange={(e) => handleFileChange(e, item)}
-            />
+            </form>
           </div>
-        ))}
-      </ul>
+
+          <hr />
+          <ul>
+            {items.map((item) => (
+              <div className="itemMain" key={item.id}>
+                <img
+                  src={`${imageurl}/${item.image}`}
+                  width="100"
+                  height="100"
+                />
+                <h2>{item.title}</h2>
+                <p>{item.description}</p>
+                <p>${item.price}</p>
+                {item.sold ? (
+                  <div>
+                    <p>{item.sold}</p>
+                    <button onClick={() => toggleSold(item)}>Unsell</button>
+                  </div>
+                ) : (
+                  <div>
+                    <p>Not Yet Sold</p>
+                    <button onClick={() => toggleSold(item)}>Sell</button>
+                  </div>
+                )}
+
+                <button onClick={() => deleteItem(item)}>Delete</button>
+                <label htmlFor="image"></label>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/png,image/jpeg"
+                  onChange={(e) => handleFileChange(e, item)}
+                />
+              </div>
+            ))}
+          </ul>
+        </div>
+
+        <div className="userRight">
+          <h2 className="title">Add</h2>
+          <hr />
+          <form className="addForm" onSubmit={handleFormSubmit}>
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              onChange={handleInputChange}
+              value={formData.title}
+              required
+            />
+            <label htmlFor="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              onChange={handleInputChange}
+              value={formData.description}
+            />
+            <label htmlFor="price">Price</label>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              step="0.01"
+              onChange={handleInputChange}
+              value={formData.price}
+            />
+
+            <label htmlFor="sold">Sold</label>
+            <input
+              type="date"
+              id="sold"
+              name="sold"
+              onChange={handleInputChange}
+              value={formData.sold}
+            />
+
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

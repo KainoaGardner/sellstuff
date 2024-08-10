@@ -12,7 +12,7 @@ from datetime import date
 router = APIRouter(prefix="/graphs", tags=["Graphs"])
 
 
-@router.get("/sales_by_times")
+@router.get("/bar")
 def get_bar_graph(
     user_auth: user_dependency,
     db: Session = Depends(get_db),
@@ -36,10 +36,10 @@ def get_bar_graph(
 
     image_path = graphs.bar(db, user_id, date, value_type, graph_type, color)
 
-    return FileResponse(image_path)
+    return image_path
 
 
-@router.get("/profit_over_time")
+@router.get("/plot")
 def get_plot_graph(
     user_auth: user_dependency,
     db: Session = Depends(get_db),
@@ -62,4 +62,4 @@ def get_plot_graph(
 
     image_path = graphs.plot(db, user_id, date, graph_type, color)
 
-    return FileResponse(image_path)
+    return image_path

@@ -24,4 +24,4 @@ def login_in_token(
     token = authentication.create_access_token(
         user.username, user.id, timedelta(days=7)
     )
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "bearer", "id": user.id}

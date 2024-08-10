@@ -1,0 +1,51 @@
+.userMain {
+  display: flex;
+}
+
+.userLeft {
+  flex: 2;
+  padding: 10px 10px;
+}
+
+.userRight {
+  flex: 1;
+  padding: 10px 10px;
+  border: solid;
+  border-width: 2px;
+}
+
+.sortMain {
+  display: flex;
+  justify-content: center;
+}
+
+.sortForm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+select {
+  height: 30px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.sortIn {
+  margin: 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.addForm {
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  margin: 25px 0;
+  padding: 0 0;
+}
+.itemMain {
+  display: flex;
+}

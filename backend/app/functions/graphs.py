@@ -73,7 +73,6 @@ def make_bar_graph(user_id, x, y, x_type, y_type, title, color):
 
 
 def make_plot_graph(user_id, x, y, x_type, y_type, title, color, start_date, end_date):
-    print("test")
     fig = plt.figure(figsize=(10, 5), facecolor=colors["white"])
     ax = plt.gca()
     ax.set_xlim([start_date, end_date])
@@ -144,9 +143,9 @@ def sales_by_month(db, user_id, today_date, value_type, color):
             y.append(date_sum(db, user_id, start, end))
 
     if value_type == "sales":
-        make_bar_graph(user_id, x, y, "Days", "Sales", "Sales each Day", color)
+        make_bar_graph(user_id, x, y, "Weeks", "Sales", "Sales per Week", color)
     else:
-        make_bar_graph(user_id, x, y, "Days", "Profit $", "Profit per Day", color)
+        make_bar_graph(user_id, x, y, "Weeks", "Profit $", "Profit per Week", color)
 
     return f"images/{user_id}/bar.png"
 

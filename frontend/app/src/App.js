@@ -6,20 +6,24 @@ import User from "./User";
 import Data from "./Data";
 import Login from "./Login";
 import Register from "./Register";
+import "./static/Base.css";
+import "./static/Alert.css";
 
 function App() {
   return (
     <>
       <Nav />
-      <Alert />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/data" element={<Data />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <div className="mainBody">
+        <Alert />
+        <Routes className="mainBody">
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/data" element={<Data />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
     </>
   );
 }

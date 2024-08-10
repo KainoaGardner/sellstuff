@@ -1,0 +1,25 @@
+.loginMain {
+  display: flex;
+  justify-content: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  max-width: 750px;
+}
+
+button {
+  font-weight: bold;
+  height: 25px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  height: 25px;
+  margin: 10px 0;
+}

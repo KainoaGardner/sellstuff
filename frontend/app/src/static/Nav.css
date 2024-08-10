@@ -1,0 +1,49 @@
+a {
+  font-size: 20px;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0px 15px;
+  margin: 0 0;
+  font-weight: bold;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.linkMain {
+  display: flex;
+  justify-content: space-between;
+  border: solid;
+  border-width: 2px;
+
+  /* padding: 10px 10px; */
+}
+
+a:active {
+  background-color: #bdc3c7;
+}
+
+.linkLeft {
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+
+.linkRight {
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+
+.linkTitle {
+  font-size: 25px;
+}
+
+.linkButton {
+  /* border: solid; */
+  /* border-width: 1px; */
+  align-items: center;
+  position: relative;
+}

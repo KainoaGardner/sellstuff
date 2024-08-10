@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { baseurl } from "./config";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "./AlertContext";
+import "./static/Login.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -59,29 +60,32 @@ function Register() {
 
   return (
     <>
-      <h1>Register</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          onChange={handleInputChange}
-          value={formData.username}
-          required
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleInputChange}
-          value={formData.password}
-          required
-        />
+      <h1 className="title">Register</h1>
+      <hr />
+      <div className="loginMain">
+        <form className="loginForm" onSubmit={handleFormSubmit}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            onChange={handleInputChange}
+            value={formData.username}
+            required
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            onChange={handleInputChange}
+            value={formData.password}
+            required
+          />
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </>
   );
 }
